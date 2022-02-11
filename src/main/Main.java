@@ -19,14 +19,14 @@ public class Main {
         System.out.println("""
                 Seleccione el algoritmo que desea utilizar:
                 1.SHA-256
-                2.MD5
-                3.SHA-1
+                2.SHA-1
+                3.MD5
                 """);
         String s=sc.next();
         if(s.equals("2"))
-            algorithm="MD5";
-        else if(s.equals("3"))
             algorithm="SHA-1";
+        else if(s.equals("3"))
+            algorithm="MD5";
         return algorithm;
     }
     private static String askFileName()
