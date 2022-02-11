@@ -7,20 +7,31 @@ import java.security.NoSuchAlgorithmException;
 public class Main {
     public static void main(String[] args) {
         File fichero = new File("ficheiro");
+        BufferedInputStream bin = createBufferInputStream(fichero);
+        byte[] hash = getFileHash(bin);
+        toHexString(hash);
+    }
+
+    private static byte[] getFileHash(BufferedInputStream bin) {
+        byte[] hash=new byte[0];
+        try {
+            MessageDigest md = MessageDigest.getInstance("SHA-256");
+            md.update(bin.readAllBytes());
+            hash = md.digest();
+        } catch (NoSuchAlgorithmException | IOException e) {
+            e.printStackTrace();
+        }
+        return hash;
+    }
+
+    private static BufferedInputStream createBufferInputStream(File fichero) {
         BufferedInputStream bin = null;
         try {
             bin = new BufferedInputStream(new FileInputStream(fichero));
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
-        try {
-            MessageDigest md = MessageDigest.getInstance("SHA-256");
-            md.update(bin.readAllBytes());
-            byte[] hash = md.digest();
-            toHexString(hash);
-        } catch (NoSuchAlgorithmException | IOException e) {
-            e.printStackTrace();
-        }
+        return bin;
     }
 
     private static void toHexString(byte[] hash) {
